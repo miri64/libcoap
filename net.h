@@ -132,7 +132,7 @@ typedef struct coap_context_t {
    * random value. A new message id can be created with
    * coap_new_message_id().
    */ 
-  unsigned short message_id;
+  uint16_t message_id;
 
   /**
    * The next value to be used for Observe. This field is global for
@@ -196,9 +196,11 @@ coap_context_t *coap_new_context(const coap_address_t *listen_addr);
 static inline unsigned short 
 coap_new_message_id(coap_context_t *context) {
 #ifndef WITH_CONTIKI
-  return htons(++(context->message_id));
+    context->message_id += 1;
+    return htons(context->message_id);
 #else /* WITH_CONTIKI */
-  return uip_htons(++context->message_id);
+    context->message_id += 1;
+    return uip_htons(context->message_id);
 #endif
 }
 

@@ -45,6 +45,10 @@
 #include "block.h"
 #include "net.h"
 
+#ifndef UINT_MAX
+#define UINT_MAX    ((2 << sizeof (unsigned)) - 1)
+#endif
+
 #if defined(WITH_POSIX)
 
 time_t clock_offset;

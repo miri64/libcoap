@@ -106,6 +106,10 @@ _coap_address_equals_impl(const coap_address_t *a,
  return 0;
 }
 
+#ifndef IN_MULTICAST
+#define IN_MULTICAST(a) (1)
+#endif
+
 static inline int
 _coap_is_mcast_impl(const coap_address_t *a) {
   if (!a)
