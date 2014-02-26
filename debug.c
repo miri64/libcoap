@@ -46,7 +46,7 @@ const char *coap_package_version() {
 }
 
 coap_log_t 
-coap_get_log_level() {
+coap_get_log_level(void) {
   return maxlog;
 }
 

@@ -30,7 +30,7 @@ typedef enum { LOG_EMERG=0, LOG_ALERT, LOG_CRIT, LOG_WARNING,
 #endif
 
 /** Returns the current log level. */
-coap_log_t coap_get_log_level();
+coap_log_t coap_get_log_level(void);
 
 /** Sets the log level to the specified value. */
 void coap_set_log_level(coap_log_t level);
