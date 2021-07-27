@@ -21,12 +21,13 @@ AM_CFLAGS = -I$(top_builddir)/include -I$(top_srcdir)/include \
 
 bin_PROGRAMS = coap-client@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ \
                coap-server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ \
+               coap-dns-server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ \
                coap-rd@LIBCOAP_DTLS_LIB_EXTENSION_NAME@
 
 check_PROGRAMS = coap-etsi_iot_01 coap-tiny
 
 if BUILD_ADD_DEFAULT_NAMES
-noinst_PROGRAMS = coap-client coap-server coap-rd
+noinst_PROGRAMS = coap-client coap-server coap-dns-server coap-rd
 
 coap_client_SOURCES = coap-client.c
 coap_client_LDADD =  $(DTLS_LIBS) \
@@ -34,6 +35,10 @@ coap_client_LDADD =  $(DTLS_LIBS) \
 
 coap_server_SOURCES = coap-server.c
 coap_server_LDADD = $(DTLS_LIBS) \
+             $(top_builddir)/.libs/libcoap-$(LIBCOAP_NAME_SUFFIX).la
+
+coap_dns_server_SOURCES = coap-dns-server.c
+coap_dns_server_LDADD = $(DTLS_LIBS) \
              $(top_builddir)/.libs/libcoap-$(LIBCOAP_NAME_SUFFIX).la
 
 coap_rd_SOURCES = coap-rd.c
@@ -47,6 +52,10 @@ coap_client@LIBCOAP_DTLS_LIB_EXTENSION_NAME@_LDADD =  $(DTLS_LIBS) \
 
 coap_server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@_SOURCES = coap-server.c
 coap_server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@_LDADD = $(DTLS_LIBS) \
+             $(top_builddir)/.libs/libcoap-$(LIBCOAP_NAME_SUFFIX).la
+
+coap_dns_server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@_SOURCES = coap-dns-server.c
+coap_dns_server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@_LDADD = $(DTLS_LIBS) \
              $(top_builddir)/.libs/libcoap-$(LIBCOAP_NAME_SUFFIX).la
 
 coap_rd@LIBCOAP_DTLS_LIB_EXTENSION_NAME@_SOURCES = coap-rd.c
@@ -65,7 +74,7 @@ endif # BUILD_EXAMPLES
 
 if BUILD_EXAMPLES_SOURCE
 EXAMPLES_DIR = $(DESTDIR)$(datadir)/libcoap/examples
-EXAMPLES_SRC = coap-client.c coap-server.c
+EXAMPLES_SRC = coap-client.c coap-dns-server.c coap-server.c
 endif # BUILD_EXAMPLES_SOURCE
 
 ## Install example files
@@ -88,6 +97,10 @@ if BUILD_ADD_DEFAULT_NAMES
 				rm -f coap-server ; \
 				$(LN_S) coap-server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ coap-server ; \
 			fi ; \
+			if [ -f coap-dns-server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ ] ; then \
+				rm -f coap-dns-server ; \
+				$(LN_S) coap-dns-server@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ coap-server ; \
+			fi ; \
 			if [ -f coap-rd@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ ] ; then \
 				rm -f coap-rd ; \
 				$(LN_S) coap-rd@LIBCOAP_DTLS_LIB_EXTENSION_NAME@ coap-rd ; \
@@ -103,5 +116,6 @@ endif # BUILD_EXAMPLES_SOURCE
 if BUILD_ADD_DEFAULT_NAMES
 	rm -f $(DESTDIR)$(bindir)/coap-client
 	rm -f $(DESTDIR)$(bindir)/coap-server
+	rm -f $(DESTDIR)$(bindir)/coap-dns-server
 	rm -f $(DESTDIR)$(bindir)/coap-rd
 endif # BUILD_ADD_DEFAULT_NAMES

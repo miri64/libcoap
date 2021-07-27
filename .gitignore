@@ -80,6 +80,8 @@ examples/.deps/
 examples/*.o
 examples/coap-client
 examples/coap-client-*
+examples/coap-dns-server
+examples/coap-dns-server-*
 examples/coap-etsi_iot_01
 examples/coap-rd
 examples/coap-rd-*
